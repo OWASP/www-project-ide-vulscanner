@@ -17,10 +17,10 @@ IDE-VulScanner is a IDE agnostic tool for developers to identify vulnerable code
 
 ### An IDE plugin view
 
-* A vulneability report within vscode editor
+* A vulnerability report within vscode editor
 ![vscode](/assets/images/vscode.png)
 
-* A vulnerability report within intellij editor
+* A vulnerability report within IntelliJ editor
 ![intellij](/assets/images/intellij.png)
 
 ### Contribute
@@ -29,5 +29,5 @@ If you got any prior experience of building plugins or extensions for any of the
 * VSCode
 * IntelliJ
 
-Reach out to me at *jitu.ranjan@owasp.org*, happy to work with you to build this as a appsec community product.
+Reach out to me at *jitu.ranjan@owasp.org*, happy to work with you to build this as a app-sec community product.
 
