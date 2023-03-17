@@ -6,11 +6,11 @@
 * [Breaker](#)
 
 ### Downloads or Social Links
-* [Download](#)
+* [Download](https://github.com/OWASP/www-project-ide-vulscanner)
 * [Meetup](#)
 
 ### Code Repository
-* [repo](#https://github.com/OWASP/www-project-ide-vulscanner)
+* [repo](https://github.com/OWASP/www-project-ide-vulscanner)
 
 ### Change Log
 * [changes](#)

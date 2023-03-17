@@ -7,4 +7,3 @@ tags: example-tag
 ---
 
 ## Example
-
