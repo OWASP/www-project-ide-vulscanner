@@ -2,7 +2,7 @@
 
 ![IDE-VulScanner](/assets/images/logo-small.png)
 
-IDE-VulScanner is a IDE agnostic tool for developers to identify vulnerable code dependencies during implementation phase, which in-tern would save huge security patching cost identified via CI/CD pipelines otherwise.
+IDE-VulScanner is an IDE agnostic tool for developers to identify vulnerable code dependencies during implementation phase, which in-tern would save huge security patching and maintenance costs. This usually is caught during CI/CD build phase.
 
 ### Features
 
