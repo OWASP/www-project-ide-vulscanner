@@ -1,0 +1,49 @@
+<!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
+<idea-plugin>
+    <!-- Unique identifier of the plugin. It should be FQN. It cannot be changed between the plugin versions. -->
+    <id>org.owasp.ide-vulscanner</id>
+
+    <!-- Public plugin name should be written in Title Case.
+         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
+    <name>OWASP ide-vulscanner</name>
+
+    <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
+    <vendor email="support@destinjidee.com" url="https://www.linkedin.com/company/destinjidee">DestinJiDee</vendor>
+
+    <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
+         Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
+         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
+    <description>
+        <![CDATA[
+      <p> OWASP <a href="https://owasp.org/www-project-ide-vulscanner/"> IDE-VulScanner </a> is an IDE agnostic tool for developers to identify vulnerable code dependencies during implementation phase, which in-tern would save huge security patching and maintenance costs. This usually is caught during CI/CD build phase. </p>
+
+      <h2>Features</h2>
+        <ul>
+        <li>Analyse your maven project dependencies <a href="https://cve.mitre.org/">CVE score</a></li>
+        <li>Highlights vulnerable components within your Maven project</li>
+        <li>Generate <a href="https://owasp.org/www-project-dependency-check/"> OWASP Dependency Check Report</a></li>
+        <li>Auto opens browser once user click's ide-vulscanner button</li>
+        </ul>
+
+      ]]>
+    </description>
+
+    <!-- Product and plugin compatibility requirements.
+         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
+    <depends>com.intellij.modules.platform</depends>
+
+    <!-- Extension points defined by the plugin.
+         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
+    <extensions defaultExtensionNs="com.intellij">
+
+    </extensions>
+    <actions>
+        <action id="org.owasp.idevulscanner.action.IDEMavenDependencyScanAction"
+                class="org.owasp.idevulscanner.action.IDEMavenDependencyScanAction"
+                text="OWASP IDE-VulScanner"
+                description="Checks CVE score for all Maven project dependencies"
+                icon="/icons/pluginIcon.svg">
+            <add-to-group group-id="NavBarToolBar" anchor="first"/>
+        </action>
+    </actions>
+</idea-plugin>
