@@ -2,7 +2,7 @@
 ![Build](https://github.com/mwalter/MavenDependencyChecker/workflows/Build/badge.svg)
 ---
 <!-- Plugin description -->
-IDE-VulScanner is an IDE agnostic tool for developers to identify vulnerable code dependencies during implementation phase, which in-tern would save huge security patching and maintenance costs. This usually is caught during CI/CD build phase.
+IDE-VulScanner is an open source IDE plugin tool to analyze an application’s components. It is built on top of [OWASP Dependency Check](https://owasp.org/www-project-dependency-check/), which scans your application's component vulnerabilities during implementation phase.
 
 ### Features
 

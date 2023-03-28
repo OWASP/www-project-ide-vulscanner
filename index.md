@@ -9,13 +9,12 @@ pitch: Checks code vulnerability during implementation phase
 ---
 ![IDE-VulScanner](/assets/images/logo-small.png)
 ---
-IDE-VulScanner is an IDE agnostic tool for developers to identify vulnerable code dependencies during implementation phase, which in-tern would save huge security patching and maintenance costs. This usually is caught during CI/CD build phase.
+IDE-VulScanner is an open source IDE plugin tool to analyze an application’s components. It is built on top of [OWASP Dependency Check](https://owasp.org/www-project-dependency-check/), which scans your application's component vulnerabilities during implementation phase.
 
 ### Features
 * Vulnerability code scan during implementation phase
 * Save security patch & maintenance costs
 * Low overall high & critical vulnerabilities counts
-* IDE agonistic, compatible to known IDE i.e. IntelliJ, eclipse, VS Code etc
 
 ### How it works
 * Tool uses [OWASP Dependency Check](https://owasp.org/www-project-dependency-check/), which is a software compisition analysis (SCA) tool
@@ -27,6 +26,19 @@ IDE-VulScanner is an IDE agnostic tool for developers to identify vulnerable cod
 ![intelliJ](/assets/images/intellij-plugin.png)
 
 [Video link](https://www.youtube.com/watch?v=T2tFPMnX94c "Open In New Tab")
+
+### Installation
+
+- Using IDE built-in plugin system:
+
+  <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>Marketplace</kbd> > <kbd>Search for "OWASP IDE-VulScanner"</kbd> >
+  <kbd>Install Plugin</kbd>
+
+- Manually:
+
+  Download the [latest release](https://plugins.jetbrains.com/files/21353/312461/OWASP_IDE-VulScanner-1.0.1.zip) and install it manually using
+  <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>⚙️</kbd> > <kbd>Install plugin from disk...</kbd>
+
 
 
 
