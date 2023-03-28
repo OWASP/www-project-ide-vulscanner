@@ -22,8 +22,11 @@ IDE-VulScanner is an IDE agnostic tool for developers to identify vulnerable cod
 * Any third party dependency used within code can be analyzed from a developer's IDE. This would prevent overall code from a potential security risk
 * Plugins supporting common IDEs i.e. eclipse, IntelliJ, vscode are easy to install. Gives a developer a comprehensive view of all the vulnerable dependencies used within code with recommended fix
 
-### OWASP IDE-VulScanner Preview
+### Preview
 
-[![intelliJ](/assets/images/intellij.png)](https://www.youtube.com/watch?v=T2tFPMnX94c "OWASP IDE-VulScanner")
+![intelliJ](/assets/images/intellij-plugin.png)
+
+[Video link](https://www.youtube.com/watch?v=T2tFPMnX94c "Open In New Tab")
+
 
 
