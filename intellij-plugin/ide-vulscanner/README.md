@@ -21,7 +21,7 @@ IDE-VulScanner is an IDE agnostic tool for developers to identify vulnerable cod
 
 - Manually:
 
-  Download the [latest release](https://plugins.jetbrains.com/files/21344/312082/idevulscanner-1.0.0.zip) and install it manually using
+  Download the [latest release](https://plugins.jetbrains.com/files/21353/312461/OWASP_IDE-VulScanner-1.0.1.zip) and install it manually using
   <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>⚙️</kbd> > <kbd>Install plugin from disk...</kbd>
 
 
