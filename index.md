@@ -27,18 +27,5 @@ IDE-VulScanner is an open source IDE plugin tool to analyze an application’s c
 
 [Video link](https://www.youtube.com/watch?v=T2tFPMnX94c "Open In New Tab")
 
-### Installation
-
-- Using IDE built-in plugin system:
-
-  <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>Marketplace</kbd> > <kbd>Search for "OWASP IDE-VulScanner"</kbd> >
-  <kbd>Install Plugin</kbd>
-
-- Manually:
-
-  Download the [latest release](https://plugins.jetbrains.com/files/21353/312461/OWASP_IDE-VulScanner-1.0.1.zip) and install it manually using
-  <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>⚙️</kbd> > <kbd>Install plugin from disk...</kbd>
-
-
 
 
