@@ -23,7 +23,7 @@ IDE-VulScanner is an open source IDE plugin tool to analyze an application’s c
 
 ### Preview
 
-![intelliJ](/assets/images/intellij-plugin.png)
+![intelliJ](/assets/images/intellij-preview.png)
 
 [Video link](https://www.youtube.com/watch?v=T2tFPMnX94c "Open In New Tab")
 
