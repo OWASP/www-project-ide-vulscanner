@@ -9,12 +9,11 @@ IDE-VulScanner is an open source IDE plugin tool to analyze an application’s c
 * Vulnerability code scan during implementation phase
 * Save security patch & maintenance costs
 * Low overall high & critical vulnerabilities counts
-* IDE agonistic, compatible to known IDE i.e. IntelliJ, eclipse, VS Code etc
 
 
 ### Preview
 
-![intelliJ](/assets/images/intellij-plugin.png)
+![intelliJ](/assets/images/iintellij-preview.png)
 
 [Video link](https://www.youtube.com/watch?v=T2tFPMnX94c "Open In New Tab")
 
@@ -27,7 +26,7 @@ IDE-VulScanner is an open source IDE plugin tool to analyze an application’s c
 
 - Manually:
 
-  Download the [latest release](https://plugins.jetbrains.com/files/21353/312461/OWASP_IDE-VulScanner-1.0.1.zip) and install it manually using
+  Download the [latest release](https://plugins.jetbrains.com/files/21353/313112/OWASP_IDE-VulScanner-1.0.0.zip) and install it manually using
   <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>⚙️</kbd> > <kbd>Install plugin from disk...</kbd>
 
 

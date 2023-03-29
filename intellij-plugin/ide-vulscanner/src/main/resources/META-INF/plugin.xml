@@ -10,19 +10,20 @@
     <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
     <vendor email="jitu.ranjan@owasp.org" url="https://www.linkedin.com/company/destinjidee">DestinJiDee</vendor>
 
+    <change-notes>Initial release.</change-notes>
+
     <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
          Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
     <description>
         <![CDATA[
-      <p> OWASP <a href="https://owasp.org/www-project-ide-vulscanner/"> IDE-VulScanner </a> is an IDE agnostic tool for developers to identify vulnerable code dependencies during implementation phase, which in-tern would save huge security patching and maintenance costs. This usually is caught during CI/CD build phase. </p>
+      <p> OWASP <a href="https://owasp.org/www-project-ide-vulscanner/"> IDE-VulScanner </a> is an open source IDE plugin tool to analyze an application’s components. It is built on top of <a href="https://owasp.org/www-project-dependency-check/">OWASP Dependency Check<a>, which scans your application's component vulnerabilities during implementation phase. </p>
 
       <h2>Features</h2>
         <ul>
-        <li>Analyse your maven project dependencies <a href="https://cve.mitre.org/">CVE score</a></li>
+        <li>Analyse your maven project dependencies <a href="https://cve.mitre.org/">CVSS score</a></li>
         <li>Highlights vulnerable components within your Maven project</li>
         <li>Generate <a href="https://owasp.org/www-project-dependency-check/"> OWASP Dependency Check Report</a></li>
-        <li>Auto opens browser once user click's ide-vulscanner button</li>
         </ul>
 
       ]]>
