@@ -1,8 +1,8 @@
-# IDE-VulScanner
+# OWASP IDE-VulScanner
 ![Build](https://github.com/mwalter/MavenDependencyChecker/workflows/Build/badge.svg)
 ---
 <!-- Plugin description -->
-IDE-VulScanner is an open source IDE plugin tool to analyze an application’s components. It is built on top of [OWASP Dependency Check](https://owasp.org/www-project-dependency-check/), which scans your application's component vulnerabilities during implementation phase.
+OWASP IDE-VulScanner is an open source IDE plugin tool to analyze an application’s components. It is built on top of [OWASP Dependency Check](https://owasp.org/www-project-dependency-check/), which scans your application's component vulnerabilities during implementation phase.
 
 ### Features
 
