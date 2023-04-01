@@ -1,4 +1,4 @@
-# IDE-VulScanner
+# OWASP IDE-VulScanner
 ![Build](https://github.com/mwalter/MavenDependencyChecker/workflows/Build/badge.svg)
 ---
 <!-- Plugin description -->
