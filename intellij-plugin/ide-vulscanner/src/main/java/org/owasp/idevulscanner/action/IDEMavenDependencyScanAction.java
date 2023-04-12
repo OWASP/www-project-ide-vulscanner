@@ -5,6 +5,7 @@ import com.intellij.ide.BrowserUtil;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
+import com.intellij.openapi.ui.MessageDialogBuilder;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.psi.PsiFile;
 import org.apache.maven.model.Dependency;
@@ -18,6 +19,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import com.intellij.util.ui.UIUtil;
 
 public class IDEMavenDependencyScanAction extends AnAction {
 
@@ -47,7 +49,7 @@ public class IDEMavenDependencyScanAction extends AnAction {
             request.setPomFile(new File(event.getProject().getBasePath() + "/pom.xml"));
         }
 
-        request.setGoals(Collections.singletonList("org.owasp:dependency-check-maven:check"));
+        request.setGoals(Collections.singletonList("-U org.owasp:dependency-check-maven:check"));
 
         Invoker mavenInvoker = new DefaultInvoker();
         if (System.getProperty("maven.home") == null) {
@@ -58,7 +60,7 @@ public class IDEMavenDependencyScanAction extends AnAction {
             }
         }
         try {
-            Messages.showInfoMessage("IDE-VulScanner is scanning your project.\nWait until scan report is loaded in your browser.", "Scan In-Progress");
+            //Messages.showInfoMessage("IDE-VulScanner is scanning your project.\nWait until scan report is loaded in your browser.", "Scan In-Progress");
 
             mavenInvoker.execute(request);
 
@@ -69,7 +71,13 @@ public class IDEMavenDependencyScanAction extends AnAction {
         }
 
         // Load OWASP dependency check results in browser
-        BrowserUtil.browse(new File(event.getProject().getBasePath() + "/target/" + CVE_REPORT));
+        int userInput = Messages.showYesNoCancelDialog("Open report in browser?","View report", UIUtil.getQuestionIcon());
+        if (userInput==0){
+            BrowserUtil.browse(new File(event.getProject().getBasePath() + "/target/" + CVE_REPORT));
+        } else{
+            Messages.showInfoMessage("Report "+CVE_REPORT+ " is at ./target folder", "Report location");
+        }
+
 
 
         Map<String, String> moduleDependencies = parser.parseModuleDependencies();
