@@ -24,7 +24,7 @@
 
 - Manually:
 
-  Download the [latest release](https://plugins.jetbrains.com/files/21353/313112/OWASP_IDE-VulScanner-1.0.0.zip) and install it manually using
+  Download the [latest release](https://plugins.jetbrains.com/plugin/21353-owasp-ide-vulscanner/versions) and install it manually using
   <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>⚙️</kbd> > <kbd>Install plugin from disk...</kbd>
 
 
