@@ -45,8 +45,13 @@ intellij {
             exclude(group = "org.apache.logging.log4j", module = "log4j-to-slf4j")
         }
 
+        implementation("org.owasp:dependency-check-cli:7.3.2")
         implementation("org.apache.maven.shared:maven-invoker:3.2.0")
 
+        //implementation(files("/src/main/resources/lib/dependency-check-cli.jar"))
+        //implementation(files("/src/main/resources/lib/dependency-check-core.jar"))
+        //implementation(files("/src/main/resources/lib/dependency-check-utils.jar"))
+        //api(fileTree("src/main/libs") { include("*.jar") })
         testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
         testImplementation("org.mockito:mockito-core:4.2.0")
         testImplementation("org.mockito:mockito-junit-jupiter:4.2.0")

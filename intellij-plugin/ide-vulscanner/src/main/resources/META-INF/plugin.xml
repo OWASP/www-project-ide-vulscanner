@@ -8,11 +8,21 @@
     <name>OWASP IDE-VulScanner</name>
 
     <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
-    <vendor email="jitu.ranjan@owasp.org" url="https://www.linkedin.com/company/destinjidee">DestinJiDee</vendor>
+    <vendor email="jitu.ranjan@owasp.org" url="https://destinjidee.com">DestinJiDee</vendor>
 
     <change-notes><![CDATA[
 
         <h2>Releases Notes </h2>
+        <ul>
+        <li>1.0.3</li>
+        <li>Latest 2023.3 supported version</li>
+        <li>Latest OWASP dependency check version, expect a delay due to latest NVD CVE download</li>
+        </ul>
+        <ul>
+        <li>1.0.2</li>
+        <li>Latest 2023.2 supported version</li>
+        <li>Latest OWASP dependency check version, expect a delay due to latest NVD CVE download</li>
+        </ul>
         <ul>
         <li>1.0.1</li>
         <li>Maven force update (-U) option </li>

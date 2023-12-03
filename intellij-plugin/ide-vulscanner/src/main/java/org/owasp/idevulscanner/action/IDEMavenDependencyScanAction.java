@@ -12,9 +12,14 @@ import org.apache.maven.model.Dependency;
 import org.apache.maven.shared.invoker.*;
 import org.apache.maven.shared.utils.cli.CommandLineUtils;
 import org.jetbrains.annotations.NotNull;
+import org.owasp.dependencycheck.App;
+import org.owasp.dependencycheck.CliParser;
+import org.owasp.dependencycheck.utils.Settings;
 import org.owasp.idevulscanner.parser.DependencyParser;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -37,7 +42,10 @@ public class IDEMavenDependencyScanAction extends AnAction {
 
     @Override
     public void actionPerformed(@NotNull AnActionEvent event) {
+
+
         PsiFile pomFile = event.getData(CommonDataKeys.PSI_FILE);
+
         DependencyParser parser = new DependencyParser(pomFile);
         List<Dependency> mavenDependencies = parser.parseMavenDependencies();
         if (mavenDependencies.isEmpty()) {
@@ -48,7 +56,7 @@ public class IDEMavenDependencyScanAction extends AnAction {
         if (event.getProject().getBasePath() != null) {
             request.setPomFile(new File(event.getProject().getBasePath() + "/pom.xml"));
         }
-
+        request.addArg("-DnvdApiKey f2809d74-f55f-46fa-b36f-da67050d0a1c");
         request.setGoals(Collections.singletonList("-U org.owasp:dependency-check-maven:check"));
 
         Invoker mavenInvoker = new DefaultInvoker();
@@ -85,6 +93,8 @@ public class IDEMavenDependencyScanAction extends AnAction {
         if (moduleDependencies.isEmpty()) {
             Messages.showInfoMessage("No project dependency information found.\nNothing to check.", "No Project Dependencies");
         }
+
+
 
     }
 
