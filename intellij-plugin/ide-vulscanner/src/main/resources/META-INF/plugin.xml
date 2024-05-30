@@ -10,7 +10,7 @@
     <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
     <vendor email="jitu.ranjan007@gmail.com" url="https://destinjidee.com">destinjidee</vendor>
     
-    <product-descriptor code="POWASPIDEVULSCA" release-date="20240524" release-version="10" optional="true"></product-descriptor>
+    <product-descriptor code="" release-date="20240524" release-version="10" optional="true"></product-descriptor>
 
     <change-notes><![CDATA[
 
