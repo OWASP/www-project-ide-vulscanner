@@ -1,0 +1,12 @@
+{
+    "iconDefinitions": {
+      "icon-light": {
+        "iconPath": "./images/icon-light.png"
+      },
+      "icon-dark": {
+        "iconPath": "./images/icon-dark.png"
+      }
+    },
+    "file": "icon-light",
+    "fileDark": "icon-dark"
+  }
