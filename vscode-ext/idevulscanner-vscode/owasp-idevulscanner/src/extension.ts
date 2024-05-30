@@ -36,7 +36,7 @@ export function activate(context: vscode.ExtensionContext) {
 		}
 
 		// Execute Maven command (e.g., 'mvn clean install')
-		const mavenProcess = cp.spawn('mvn', ['-DnvdApiKey=f2809d74-f55f-46fa-b36f-da67050d0a1c -U org.owasp:dependency-check-maven:check'], {
+		const mavenProcess = cp.spawn('mvn', ['-DnvdApiKey= -U org.owasp:dependency-check-maven:check'], {
 			cwd: workspaceFolder,
 			shell: true
 		});
