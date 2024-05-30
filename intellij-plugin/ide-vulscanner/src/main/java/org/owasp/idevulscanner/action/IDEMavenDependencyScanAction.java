@@ -56,7 +56,7 @@ public class IDEMavenDependencyScanAction extends AnAction {
         if (event.getProject().getBasePath() != null) {
             request.setPomFile(new File(event.getProject().getBasePath() + "/pom.xml"));
         }
-        request.addArg("-DnvdApiKey f2809d74-f55f-46fa-b36f-da67050d0a1c");
+        request.addArg("-DnvdApiKey ");
         request.setGoals(Collections.singletonList("-U org.owasp:dependency-check-maven:check"));
 
         Invoker mavenInvoker = new DefaultInvoker();
