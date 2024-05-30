@@ -17,7 +17,7 @@ IDE-VulScanner is an IDE agnostic tool for developers to identify vulnerable cod
 * Search for OWASP IDE-VulScanner and click install
 * Open a Maven project in your IDEA
 * Wait for the project to load fine, and click on the pom.xml file to enable OWASP IDE-VulScanner on your navbar
-![image](Usage.PNG)
+![image](https://github.com/OWASP/www-project-ide-vulscanner/raw/main/vscode-ext/idevulscanner-vscode/owasp-idevulscanner/Usage.PNG)
 * Click on OWASP IDE-VulScanner icon and wait for the html report to get loaded in your editor 
 ---
 **NOTE**
