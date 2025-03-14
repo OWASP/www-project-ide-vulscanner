@@ -1,40 +1,35 @@
-# OWASP IDE-VulScanner
+# OWASP IDE-VulScanner  
 
-![IDE-VulScanner](/assets/images/pluginIcon.png) OWASP IDE-VulScanner is an open source IDE plugin tool to analyze an application’s components. It is built on top of [OWASP Dependency Check](https://owasp.org/www-project-dependency-check/), which scans your application's component vulnerabilities during implementation phase.
+## OWASP IDE-VulScanner  
 
-### Features
+![IDE-VulScanner](./assets/images/pluginIcon.png)  
+OWASP IDE-VulScanner is an open-source IDE plugin tool designed to analyze an application's components. It is built on top of [OWASP Dependency Check](https://owasp.org/www-project-dependency-check/), which scans your application's component dependencies for vulnerabilities during the implementation phase.  
 
-* Vulnerability code scan during implementation phase
-* Save security patch & maintenance costs
-* Low overall high & critical vulnerabilities counts
+## Features  
+- Detects vulnerabilities in code during development.  
+- Helps maintain security patches and reduce maintenance costs.  
+- Identifies both high and critical-level vulnerabilities with minimal effort.  
 
+## Preview  
+![IntelliJ Plugin Preview](./assets/images/intellij-preview.png)  
+[Video Guide](https://www.youtube.com/watch?v=T2tPfmX94Qc) *(Open in New Tab)*  
 
-### Preview
+## Installation  
 
-![intelliJ](/assets/images/intellij-preview.png)
+### Using the Built-in Plugin System:  
+1. Go to **Settings/Preferences** → **Plugins/Marketplace**  
+2. Search for **"OWASP IDE-VulScanner"**  
+3. Click **Install Plugin**  
 
-[Video link](https://www.youtube.com/watch?v=T2tFPMnX94c "Open In New Tab")
+### Manual Installation:  
+1. Download the [latest release](https://plugins.jetbrains.com/plugin/21353-owasp-ide-vulscanner/versions)  
+2. Open **Settings/Preferences** → **Plugins**  
+3. Click **⚙️ (gear icon) → Install plugin from disk...**  
 
-### Installation
+## Contribute  
+If you have experience in building plugins or extensions, you can contribute to the following:  
+- **Eclipse**  
+- **VSCode**  
+- **IntelliJ**  
 
-- Using IDE built-in plugin system:
-
-  <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>Marketplace</kbd> > <kbd>Search for "OWASP IDE-VulScanner"</kbd> >
-  <kbd>Install Plugin</kbd>
-
-- Manually:
-
-  Download the [latest release](https://plugins.jetbrains.com/plugin/21353-owasp-ide-vulscanner/versions) and install it manually using
-  <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>⚙️</kbd> > <kbd>Install plugin from disk...</kbd>
-
-
-
-
-### Contribute
-If you got any prior experience of building plugins or extensions for any of the following IDEs 
-* Eclipse
-* VSCode
-* IntelliJ
-
-Reach out to me at *jitu.ranjan@owasp.org*, happy to work with you to build this as a app-sec community product.
-
+For any queries or contributions, feel free to reach out at **"jitu.ranjan@owasp.org"**. We would love to collaborate and enhance this open-source security tool!  
