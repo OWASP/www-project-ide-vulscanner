@@ -37,9 +37,11 @@
   "engines": {
     "vscode": "^1.80.0"
   },
-  "activationEvents": [],
+  "activationEvents": [
+    "onCommand:owasp-idevulscanner.runner"
+  ],
   "icon": "icon.PNG",
-  "main": "./out/extension.js",
+  "main": "./dist/extension.js",
   "contributes": {
     "commands": [
       {
@@ -49,15 +51,13 @@
           "light": "images/pluginIcon.svg",
           "dark": "images/pluginIcon.svg"
         }
-       
-        
       }
     ],
     "menus": {
       "editor/title": [
         {
           "command": "owasp-idevulscanner.runner",
-          "when": "resourceFilename == pom.xml",
+          "when": "resourceFilename == 'pom.xml'",
           "group": "navigation"
         }
       ]
@@ -69,7 +69,7 @@
     "watch": "tsc -watch -p ./",
     "pretest": "npm run compile && npm run lint",
     "lint": "eslint src --ext ts",
-    "test": "node ./out/test/runTest.js"
+    "test": "node ./dist/test/runTest.js"
   },
   "devDependencies": {
     "@types/vscode": "^1.80.0",
@@ -81,7 +81,7 @@
     "eslint": "^8.41.0",
     "glob": "^8.1.0",
     "mocha": "^10.2.0",
-    "typescript": "^5.1.3",
+    "typescript": "^5.8.2",
     "open": "^8.4.0",
     "@vscode/test-electron": "^2.3.2"
   }
