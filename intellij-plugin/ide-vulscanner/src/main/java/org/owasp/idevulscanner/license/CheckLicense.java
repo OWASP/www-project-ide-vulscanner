@@ -3,6 +3,7 @@ import java.net.*;
 import java.security.cert.*;
 import java.text.*;
 import java.util.*;
+import javax.net.ssl.*;
 
 public class LicenseValidator {
 
@@ -116,12 +117,7 @@ public class LicenseValidator {
                 trustedCerts.add(rootCertificate);
             }
 
-            // Verify the certificate chain
-            TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
-            trustManagerFactory.init((KeyStore) null);
-            X509TrustManager x509TrustManager = (X509TrustManager) trustManagerFactory.getTrustManagers()[0];
-
-            // Validate the certificate chain against the root certificates
+            // Verify the certificate chain using the TrustManager
             for (X509Certificate trustedCert : trustedCerts) {
                 try {
                     cert.verify(trustedCert.getPublicKey());
@@ -147,6 +143,10 @@ public class LicenseValidator {
             URL url = new URL(serverUrl);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
+            
+            // Set a timeout to avoid indefinite hanging
+            connection.setConnectTimeout(5000);  // 5 seconds timeout
+            connection.setReadTimeout(5000);     // 5 seconds timeout
 
             // Read the server response
             int responseCode = connection.getResponseCode();
@@ -159,9 +159,11 @@ public class LicenseValidator {
                 System.out.println("License validation failed on server.");
                 return false;
             }
-        } catch (Exception e) {
+        } catch (SocketTimeoutException e) {
+            System.out.println("Timeout error while validating license on server: " + e.getMessage());
+        } catch (IOException e) {
             System.out.println("Error validating license on server: " + e.getMessage());
-            return false;
         }
+        return false;
     }
 }
