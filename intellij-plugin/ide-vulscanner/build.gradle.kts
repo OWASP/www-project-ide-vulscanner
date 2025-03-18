@@ -1,21 +1,15 @@
 import org.jetbrains.changelog.markdownToHTML
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-fun properties(key: String) = project.findProperty(key).toString()
+fun properties(key: String) = project.findProperty(key)?.toString() ?: error("Missing property: $key")
 
 plugins {
-    // Java support
-    id("java")
-    // Kotlin support
-    id("org.jetbrains.kotlin.jvm") version "1.8.10"
-    // Gradle IntelliJ Plugin
-    id("org.jetbrains.intellij") version "1.13.2"
-    // Gradle Changelog Plugin
-    id("org.jetbrains.changelog") version "2.0.0"
-    // Gradle Qodana Plugin
-    id("org.jetbrains.qodana") version "0.1.13"
-    // Gradle Kover Plugin
-    id("org.jetbrains.kotlinx.kover") version "0.6.1"
+    id("java") // Java support
+    id("org.jetbrains.kotlin.jvm") version "1.9.22" // Updated Kotlin
+    id("org.jetbrains.intellij") version "1.15.0" // Updated IntelliJ Plugin
+    id("org.jetbrains.changelog") version "2.1.0" // Updated Changelog Plugin
+    id("org.jetbrains.qodana") version "0.1.14" // Updated Qodana Plugin
+    id("org.jetbrains.kotlinx.kover") version "0.7.0" // Updated Kover Plugin
 }
 
 group = properties("pluginGroup")
@@ -29,44 +23,36 @@ kotlin {
     jvmToolchain(17)
 }
 
-// Configure Gradle IntelliJ Plugin
-// Read more: https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
+// IntelliJ Plugin Configuration
 intellij {
     pluginName.set(properties("pluginName"))
     version.set(properties("platformVersion"))
     type.set(properties("platformType"))
-
-    // Plugin Dependencies. Uses `platformPlugins` property from the gradle.properties file.
     plugins.set(properties("platformPlugins").split(',').map(String::trim).filter(String::isNotEmpty))
-
-    dependencies {
-        implementation("org.json:json:20211205")
-        implementation("org.apache.maven:maven-model:3.8.4") {
-            exclude(group = "org.apache.logging.log4j", module = "log4j-to-slf4j")
-        }
-
-        implementation("org.owasp:dependency-check-cli:7.3.2")
-        implementation("org.apache.maven.shared:maven-invoker:3.2.0")
-
-        //implementation(files("/src/main/resources/lib/dependency-check-cli.jar"))
-        //implementation(files("/src/main/resources/lib/dependency-check-core.jar"))
-        //implementation(files("/src/main/resources/lib/dependency-check-utils.jar"))
-        //api(fileTree("src/main/libs") { include("*.jar") })
-        testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
-        testImplementation("org.mockito:mockito-core:4.2.0")
-        testImplementation("org.mockito:mockito-junit-jupiter:4.2.0")
-
-        downloadSources.set(true)
-    }
+    downloadSources.set(true)
 }
 
-// Configure Gradle Changelog Plugin - read more: https://github.com/JetBrains/gradle-changelog-plugin
+// Dependencies
+dependencies {
+    implementation("org.json:json:20231013") // Updated JSON Library
+    implementation("org.apache.maven:maven-model:3.9.6") {
+        exclude(group = "org.apache.logging.log4j", module = "log4j-to-slf4j")
+    }
+    implementation("org.owasp:dependency-check-cli:8.4.0") // Updated OWASP Dependency Checker
+    implementation("org.apache.maven.shared:maven-invoker:3.3.0")
+
+    testImplementation("org.junit.jupiter:junit-jupiter:5.10.2") // Updated JUnit
+    testImplementation("org.mockito:mockito-core:5.7.0") // Updated Mockito
+    testImplementation("org.mockito:mockito-junit-jupiter:5.7.0")
+}
+
+// Changelog Plugin Configuration
 changelog {
     version.set(properties("pluginVersion"))
     groups.set(emptyList())
 }
 
-// Configure Gradle Qodana Plugin - read more: https://github.com/JetBrains/gradle-qodana-plugin
+// Qodana Plugin Configuration
 qodana {
     cachePath.set(projectDir.resolve(".qodana").canonicalPath)
     reportPath.set(projectDir.resolve("build/reports/inspections").canonicalPath)
@@ -74,13 +60,13 @@ qodana {
     showReport.set(System.getenv("QODANA_SHOW_REPORT")?.toBoolean() ?: false)
 }
 
-// Configure Gradle Kover Plugin - read more: https://github.com/Kotlin/kotlinx-kover#configuration
+// Kover Plugin Configuration
 kover.xmlReport {
     onCheck.set(true)
 }
 
 tasks {
-    // Set the JVM compatibility versions
+    // Set JVM compatibility
     properties("javaVersion").let {
         withType<JavaCompile> {
             sourceCompatibility = it
@@ -95,10 +81,6 @@ tasks {
         gradleVersion = properties("gradleVersion")
     }
 
-
-
-    // Configure UI tests plugin
-    // Read more: https://github.com/JetBrains/intellij-ui-test-robot
     runIdeForUiTests {
         systemProperty("robot-server.port", "8082")
         systemProperty("ide.mac.message.dialogs.as.sheets", "false")
@@ -107,9 +89,6 @@ tasks {
     }
 
     signPlugin {
-        // DO NOT COMMIT OR GITHUB BUILD WILL BREAK!
-        // certificateChain.set(File(System.getenv("CERTIFICATE_CHAIN") ?: "./.certs/jetbrains-chain.crt").readText(Charsets.UTF_8))
-        // privateKey.set(File(System.getenv("PRIVATE_KEY") ?: "./.certs/jetbrains-private.pem").readText(Charsets.UTF_8))
         certificateChain.set(System.getenv("CERTIFICATE_CHAIN"))
         privateKey.set(System.getenv("PRIVATE_KEY"))
         password.set(System.getenv("PRIVATE_KEY_PASSWORD"))
@@ -118,9 +97,6 @@ tasks {
     publishPlugin {
         dependsOn("patchChangelog")
         token.set(System.getenv("PUBLISH_TOKEN"))
-        // pluginVersion is based on the SemVer (https://semver.org) and supports pre-release labels, like 2.1.7-alpha.3
-        // Specify pre-release label to publish the plugin in a custom Release Channel automatically. Read more:
-        // https://plugins.jetbrains.com/docs/intellij/deployment.html#specifying-a-release-channel
         channels.set(listOf(properties("pluginVersion").split('-').getOrElse(1) { "default" }.split('.').first()))
     }
 }

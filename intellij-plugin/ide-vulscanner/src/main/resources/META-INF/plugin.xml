@@ -1,96 +1,49 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
-    <!-- Unique identifier of the plugin. It should be FQN. It cannot be changed between the plugin versions. -->
+    <!-- Unique identifier of the plugin -->
     <id>org.owasp.ide-vulscanner</id>
 
-    <!-- Public plugin name should be written in Title Case.
-         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
+    <!-- Public plugin name -->
     <name>OWASP IDE-VulScanner</name>
 
-    <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
+    <!-- Vendor information -->
     <vendor email="jitu.ranjan007@gmail.com" url="https://destinjidee.com">destinjidee</vendor>
     
     <product-descriptor code="" release-date="20240524" release-version="10" optional="true"></product-descriptor>
 
     <change-notes><![CDATA[
-
-        <h2>Releases Notes </h2>
+        <h2>Release Notes</h2>
         <ul>
-        <li>1.0.7</li>
-        <li>Latest 2024.1 supported version</li>
+        <li>1.0.8 - Added Spectral API linting integration</li>
+        <li>1.0.7 - Latest 2024.1 supported version</li>
         <li>Latest OWASP dependency check version, expect a delay due to latest NVD CVE download</li>
-        <li>Freemium license </li>
-         <li>JDK 17 support</li>
-         <li> Getting M2_HOME not found error, try and follow steps https://stackoverflow.com/questions/7053666/maven-home-m2-home-not-being-picked-up-by-intellij-idea </liv>
+        <li>Freemium license, JDK 17 support</li>
+        <li>Bug fixes and improvements</li>
         </ul>
-        <ul>
-        <li>1.0.6</li>
-        <li>Latest 2024.1 supported version</li>
-        <li>Latest OWASP dependency check version, expect a delay due to latest NVD CVE download</li>
-        <li>Freemium license </li>
-         <li>JDK 17 support</li>
-        </ul>
-        <ul>
-        <li>1.0.5</li>
-        <li>Latest 2024.1 supported version</li>
-        <li>Latest OWASP dependency check version, expect a delay due to latest NVD CVE download</li>
-        <li>Freemium license </li>
-        </ul>
-        <ul>
-        <li>1.0.4</li>
-        <li>Latest 2024.1 supported version</li>
-        <li>Latest OWASP dependency check version, expect a delay due to latest NVD CVE download</li>
-        </ul>
-        <ul>
-        <li>1.0.3</li>
-        <li>Latest 2023.3 supported version</li>
-        <li>Latest OWASP dependency check version, expect a delay due to latest NVD CVE download</li>
-        </ul>
-        <ul>
-        <li>1.0.2</li>
-        <li>Latest 2023.2 supported version</li>
-        <li>Latest OWASP dependency check version, expect a delay due to latest NVD CVE download</li>
-        </ul>
-        <ul>
-        <li>1.0.1</li>
-        <li>Maven force update (-U) option </li>
-        <li>New message dialog for report </li>
-        </ul>
-        <ul>
-        <li>1.0.0</li>
-        <li>Initial release</li>
-        </ul>
-
-
     ]]></change-notes>
 
-    <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
-         Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
-         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
-    <description>
-        <![CDATA[
-      <p> OWASP <a href="https://owasp.org/www-project-ide-vulscanner/"> IDE-VulScanner </a> is an open source IDE plugin tool to analyze an application’s components. It is built on top of <a href="https://owasp.org/www-project-dependency-check/">OWASP Dependency Check<a>, which scans your application's component vulnerabilities during implementation phase. </p>
+    <description><![CDATA[
+        <p> OWASP <a href="https://owasp.org/www-project-ide-vulscanner/"> IDE-VulScanner </a> is an open-source IDE plugin tool to analyze an application’s components. It is built on top of <a href="https://owasp.org/www-project-dependency-check/">OWASP Dependency Check</a>, which scans your application's component vulnerabilities during the implementation phase.</p>
 
-      <h2>Features</h2>
+        <h2>Features</h2>
         <ul>
-        <li>Analyse your maven project dependencies <a href="https://cve.mitre.org/">CVSS score</a></li>
+        <li>Analyze your Maven project dependencies for <a href="https://cve.mitre.org/">CVSS score</a></li>
         <li>Highlights vulnerable components within your Maven project</li>
         <li>Generate <a href="https://owasp.org/www-project-dependency-check/"> OWASP Dependency Check Report</a></li>
+        <li>🔥 New: Run Spectral API linting on OpenAPI files</li>
         </ul>
+    ]]></description>
 
-      ]]>
-    </description>
-
-    <!-- Product and plugin compatibility requirements.
-         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
+    <!-- Compatibility -->
     <depends>com.intellij.modules.platform</depends>
 
-    <!-- Extension points defined by the plugin.
-         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
     <extensions defaultExtensionNs="com.intellij">
-
+        <!-- Register Spectral runner service -->
+        <applicationService serviceImplementation="org.owasp.idevulscanner.spectral.SpectralRunner"/>
     </extensions>
+
     <actions>
+        <!-- Existing OWASP dependency scan action -->
         <action id="org.owasp.idevulscanner.action.IDEMavenDependencyScanAction"
                 class="org.owasp.idevulscanner.action.IDEMavenDependencyScanAction"
                 text="OWASP IDE-VulScanner"
@@ -98,5 +51,14 @@
                 icon="/icons/pluginIcon.svg">
             <add-to-group group-id="NavBarToolBar" anchor="first"/>
         </action>
+
+        <!-- New Spectral linting action -->
+        <action id="org.owasp.idevulscanner.spectral.RunSpectralAction"
+                class="org.owasp.idevulscanner.spectral.RunSpectralAction"
+                text="Run Spectral Linter"
+                description="Lints OpenAPI files using Spectral">
+            <add-to-group group-id="ToolsMenu" anchor="last"/>
+        </action>
     </actions>
+
 </idea-plugin>
