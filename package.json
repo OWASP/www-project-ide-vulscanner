@@ -1,0 +1,28 @@
+{
+  "name": "www-project-ide-vulscanner",
+  "version": "1.0.0",
+  "description": "![IDE-VulScanner](/assets/images/pluginIcon.png) OWASP IDE-VulScanner is an open source IDE plugin tool to analyze an application’s components. It is built on top of [OWASP Dependency Check](https://owasp.org/www-project-dependency-check/), which scans your application's component vulnerabilities during the implementation phase.",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha -r ts-node/register src/test/suite/**/*.test.ts",
+    "compile": "tsc",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OWASP/www-project-ide-vulscanner.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/OWASP/www-project-ide-vulscanner/issues"
+  },
+  "homepage": "https://github.com/OWASP/www-project-ide-vulscanner#readme",
+  "devDependencies": {
+    "@types/mocha": "^10.0.3",
+    "mocha": "^11.1.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.2"
+  }
+}
