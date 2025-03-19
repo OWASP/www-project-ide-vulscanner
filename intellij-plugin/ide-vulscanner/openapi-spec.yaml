@@ -1,59 +1,153 @@
-openapi: 3.0.0
+openapi: 3.0.3
 info:
-  title: Sample API
-  description: A simple API to demonstrate Spectral linting
-  version: 1.0.0
+  title: IDE VulScanner API
+  description: >
+    API for OWASP IDE-Vulscanner with Spectral linting integration.  
+    Provides security scanning, vulnerability detection, and system health checks.
+  version: 1.1.0
+  contact:
+    name: OWASP IDE-Vulscanner Team
+    email: support@owasp.org
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+
 servers:
-  - url: https://api.example.com/v1
+  - url: https://api.vulscanner.owasp.org
+    description: Production Server
+  - url: http://localhost:5000
+    description: Local Development Server
+
 paths:
-  /users:
-    get:
-      summary: Get a list of users
-      description: Retrieves a list of users from the database
+  /scan:
+    post:
+      summary: Scan a file for vulnerabilities
+      description: >
+        This endpoint scans the provided file for vulnerabilities and returns a structured 
+        report with severity levels.
+      operationId: scanFile
+      security:
+        - ApiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - fileContent
+              properties:
+                fileContent:
+                  type: string
+                  description: Base64-encoded file content.
+                filename:
+                  type: string
+                  description: Name of the file being scanned.
       responses:
-        '200':
-          description: A list of users
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  type: object
-                  required:
-                    - id
-                    - name
-                  properties:
-                    id:
-                      type: integer
-                    name:
-                      type: string
-        '400':
-          description: Invalid request
-  /users/{userId}:
-    get:
-      summary: Get a specific user by ID
-      description: Retrieves user details based on user ID
-      parameters:
-        - name: userId
-          in: path
-          required: true
-          description: The ID of the user to retrieve
-          schema:
-            type: integer
-      responses:
-        '200':
-          description: The user details
+        "200":
+          description: Scan results
           content:
             application/json:
               schema:
                 type: object
-                required:
-                  - id
-                  - name
                 properties:
-                  id:
-                    type: integer
-                  name:
+                  vulnerabilities:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        severity:
+                          type: string
+                          enum: [low, medium, high, critical]
+                        description:
+                          type: string
+                        recommendation:
+                          type: string
+        "400":
+          description: Bad request
+        "401":
+          description: Unauthorized - Missing or invalid API key.
+        "500":
+          description: Internal server error
+
+  /health-check:
+    get:
+      summary: Health check endpoint
+      description: >
+        Checks if the service is running and healthy.
+      operationId: healthCheck
+      responses:
+        "200":
+          description: Service is running
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
                     type: string
-        '404':
-          description: User not found
+                    example: "ok"
+                  uptime:
+                    type: number
+                    format: float
+                    example: 123456.78
+        "500":
+          description: Service is down
+
+  /report:
+    get:
+      summary: Retrieve a scan report
+      description: Fetches the scan results for a specific report ID.
+      operationId: getScanReport
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - name: reportId
+          in: query
+          required: true
+          description: Unique identifier for the scan report.
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Scan report retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  reportId:
+                    type: string
+                  scannedAt:
+                    type: string
+                    format: date-time
+                  vulnerabilities:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        severity:
+                          type: string
+                          enum: [low, medium, high, critical]
+                        description:
+                          type: string
+                        recommendation:
+                          type: string
+        "400":
+          description: Bad request
+        "404":
+          description: Report not found
+
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+
+security:
+  - ApiKeyAuth: []

@@ -1,14 +1,119 @@
-extends: "spectral:oas"  # Use built-in OpenAPI (OAS) rules
+extends: ["spectral:oas", "spectral:recommended"]
+
 rules:
-  info-description:
-    description: "The info.description field must be present and non-empty"
-    severity: "warn"
-    given: "$.info.description"
+  info-contact:
+    description: "Info object should have contact details."
+    given: "$.info"
     then:
+      field: "contact"
       function: truthy
-  paths:
-    description: "Paths should be valid"
-    severity: "error"
-    given: "$.paths[*]"
+
+  info-license:
+    description: "OpenAPI specification should include a license."
+    given: "$.info"
     then:
+      field: "license"
+      function: truthy
+
+  no-unused-components:
+    description: "All components should be used in the paths."
+    given: "$.components"
+    then:
+      function: unreferencedComponents
+
+  operation-description:
+    description: "Each operation should have a description for better documentation."
+    given: "$.paths[*][*]"
+    then:
+      field: "description"
+      function: truthy
+
+  operation-summary:
+    description: "Each operation should have a summary to provide a high-level overview."
+    given: "$.paths[*][*]"
+    then:
+      field: "summary"
+      function: truthy
+
+  security-defined:
+    description: "Security schemes must be defined and referenced correctly."
+    given: "$.security[*]"
+    then:
+      function: defined
+
+  response-schema:
+    description: "Responses must have a schema to ensure structured data is returned."
+    given: "$.paths[*][*].responses[*].content[*]"
+    then:
+      field: "schema"
+      function: truthy
+
+  response-content-type:
+    description: "Responses should define content types explicitly."
+    given: "$.paths[*][*].responses[*]"
+    then:
+      field: "content"
+      function: truthy
+
+  operation-id:
+    description: "Each operation should have a unique operationId."
+    given: "$.paths[*][*]"
+    then:
+      field: "operationId"
+      function: truthy
+
+  tags-required:
+    description: "Every operation should have at least one tag for better organization."
+    given: "$.paths[*][*]"
+    then:
+      field: "tags"
+      function: truthy
+
+  valid-parameters:
+    description: "Parameters should have a defined schema."
+    given: "$.paths[*][*].parameters[*]"
+    then:
+      field: "schema"
+      function: truthy
+
+  no-empty-servers:
+    description: "Server URLs should be defined and non-empty."
+    given: "$.servers"
+    then:
+      field: "url"
+      function: pattern
+      functionOptions:
+        match: "^https?://.+"
+
+  content-type-header:
+    description: "POST, PUT, PATCH operations must have Content-Type headers."
+    given: "$.paths[*][post,put,patch].parameters[*]"
+    then:
+      field: "name"
+      function: pattern
+      functionOptions:
+        match: "Content-Type"
+
+  enforce-https:
+    description: "All server URLs should use HTTPS for security."
+    given: "$.servers[*].url"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^https://"
+
+  no-http-basic-auth:
+    description: "Basic Authentication should not be used. Prefer OAuth or API keys."
+    given: "$.components.securitySchemes[*]"
+    then:
+      field: "type"
+      function: pattern
+      functionOptions:
+        notMatch: "http"
+
+  response-error-format:
+    description: "Error responses should follow a consistent format."
+    given: "$.paths[*][*].responses[400,401,403,404,500].content.application/json"
+    then:
+      field: "schema"
       function: truthy
