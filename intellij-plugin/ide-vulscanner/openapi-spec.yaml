@@ -1,0 +1,153 @@
+openapi: 3.0.3
+info:
+  title: IDE VulScanner API
+  description: >
+    API for OWASP IDE-Vulscanner with Spectral linting integration.  
+    Provides security scanning, vulnerability detection, and system health checks.
+  version: 1.1.0
+  contact:
+    name: OWASP IDE-Vulscanner Team
+    email: support@owasp.org
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+
+servers:
+  - url: https://api.vulscanner.owasp.org
+    description: Production Server
+  - url: http://localhost:5000
+    description: Local Development Server
+
+paths:
+  /scan:
+    post:
+      summary: Scan a file for vulnerabilities
+      description: >
+        This endpoint scans the provided file for vulnerabilities and returns a structured 
+        report with severity levels.
+      operationId: scanFile
+      security:
+        - ApiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - fileContent
+              properties:
+                fileContent:
+                  type: string
+                  description: Base64-encoded file content.
+                filename:
+                  type: string
+                  description: Name of the file being scanned.
+      responses:
+        "200":
+          description: Scan results
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  vulnerabilities:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        severity:
+                          type: string
+                          enum: [low, medium, high, critical]
+                        description:
+                          type: string
+                        recommendation:
+                          type: string
+        "400":
+          description: Bad request
+        "401":
+          description: Unauthorized - Missing or invalid API key.
+        "500":
+          description: Internal server error
+
+  /health-check:
+    get:
+      summary: Health check endpoint
+      description: >
+        Checks if the service is running and healthy.
+      operationId: healthCheck
+      responses:
+        "200":
+          description: Service is running
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "ok"
+                  uptime:
+                    type: number
+                    format: float
+                    example: 123456.78
+        "500":
+          description: Service is down
+
+  /report:
+    get:
+      summary: Retrieve a scan report
+      description: Fetches the scan results for a specific report ID.
+      operationId: getScanReport
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - name: reportId
+          in: query
+          required: true
+          description: Unique identifier for the scan report.
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Scan report retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  reportId:
+                    type: string
+                  scannedAt:
+                    type: string
+                    format: date-time
+                  vulnerabilities:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        severity:
+                          type: string
+                          enum: [low, medium, high, critical]
+                        description:
+                          type: string
+                        recommendation:
+                          type: string
+        "400":
+          description: Bad request
+        "404":
+          description: Report not found
+
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+
+security:
+  - ApiKeyAuth: []

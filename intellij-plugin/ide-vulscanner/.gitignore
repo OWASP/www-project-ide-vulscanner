@@ -1,10 +1,5 @@
-.gradle
-build/
-!gradle/wrapper/gradle-wrapper.jar
-!**/src/main/**/build/
-!**/src/test/**/build/
-
-### IntelliJ IDEA ###
+### IntelliJ Plugin ###
+.idea/
 .idea/modules.xml
 .idea/jarRepositories.xml
 .idea/compiler.xml
@@ -16,27 +11,23 @@ out/
 !**/src/main/**/out/
 !**/src/test/**/out/
 
-### Eclipse ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
-bin/
-!**/src/main/**/bin/
-!**/src/test/**/bin/
+### Spectral Linting ###
+# Ignore Spectral cache files if any
+.spectral/
 
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
+# Ignore generated API specs if any
+openapi-generated/
+swagger-generated/
 
-### VS Code ###
-.vscode/
+### Node.js dependencies ###
+node_modules/
 
-### Mac OS ###
-.DS_Store
+### Package-specific files ###
+# If there are any package-specific build or temp files, include them here
+# Example for Gradle, Maven, etc.
+# build/
+# .gradle/
+
+# Optional: Uncomment if you want to ignore more package manager artifacts
+# .npm/
+# .yarn/

@@ -1,28 +1,24 @@
-# IDE-VulScanner
-![Build](https://github.com/mwalter/MavenDependencyChecker/workflows/Build/badge.svg)
----
-<!-- Plugin description -->
-IDE-VulScanner is an IDE agnostic tool for developers to identify vulnerable code dependencies during implementation phase, which in-tern would save huge security patching and maintenance costs. This usually is caught during CI/CD build phase.
+# 🛡️ OWASP IDE-VulScanner
 
-### Features
-
-* Vulnerability code scan during implementation phase
-* Save security patch & maintenance costs
-* Low overall high & critical vulnerabilities counts
-* IDE agonistic, compatible to known IDE i.e. IntelliJ, eclipse, VS Code etc
-
-### Getting started
-
-* Launch VSCode and open extension settings
-* Search for OWASP IDE-VulScanner and click install
-* Open a Maven project in your IDEA
-* Wait for the project to load fine, and click on the pom.xml file to enable OWASP IDE-VulScanner on your navbar
-![image](https://github.com/OWASP/www-project-ide-vulscanner/raw/main/vscode-ext/idevulscanner-vscode/owasp-idevulscanner/Usage.PNG)
-* Click on OWASP IDE-VulScanner icon and wait for the html report to get loaded in your editor 
----
-**NOTE**
-
-First time users it takes time to download relevant NVE dependency and might take time.
+OWASP IDE-VulScanner is an **advanced security scanning tool** designed for detecting vulnerabilities in code files within IDEs.  
+It now includes **Spectral linting integration** for OpenAPI specifications to ensure API quality, security, and best practices compliance.
 
 ---
-* You can obtain additional logs by navigating to Help > Toggle Developer Tools, and opening the Console tab for more verbose output.
+
+## 🚀 Features
+
+- **🔍 Vulnerability Scanning** – Detects security issues in source code.
+- **⚡ Spectral Linting for OpenAPI** – Ensures OpenAPI specs follow best practices.
+- **✅ Health Check API** – Provides a `/health-check` endpoint to verify service status.
+- **🔐 Secure API** – Enforces API key authentication for protected endpoints.
+- **📊 Detailed Reports** – Generates vulnerability reports for better security insights.
+- **🔄 Continuous Integration Support** – Runs automated security checks and linting using **GitHub Actions**.
+
+---
+
+## 📥 Installation
+
+### **🔹 Clone the Repository**
+```sh
+git clone https://github.com/OWASP/www-project-ide-vulscanner.git
+cd www-project-ide-vulscanner

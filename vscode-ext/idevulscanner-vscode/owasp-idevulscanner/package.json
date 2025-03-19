@@ -3,7 +3,7 @@
   "displayName": "OWASP IDEVulScanner",
   "description": "OWASP IDE-VulScanner is an open source IDE plugin tool to analyze an application’s components. It is built on top of OWASP Dependency Check, which scans your application’s component vulnerabilities during implementation phase.",
   "version": "0.0.6",
-  "author":  "DestinJiDee LTD",
+  "author": "DestinJiDee LTD",
   "publisher": "destinjidee",
   "preview": true,
   "contributors": [
@@ -49,8 +49,6 @@
           "light": "images/pluginIcon.svg",
           "dark": "images/pluginIcon.svg"
         }
-       
-        
       }
     ],
     "menus": {
@@ -69,7 +67,8 @@
     "watch": "tsc -watch -p ./",
     "pretest": "npm run compile && npm run lint",
     "lint": "eslint src --ext ts",
-    "test": "node ./out/test/runTest.js"
+    "test": "node ./out/test/runTest.js",
+    "lint:api": "spectral lint intellij-plugin/ide-vulscanner/openapi-spec.yaml"
   },
   "devDependencies": {
     "@types/vscode": "^1.80.0",
@@ -83,6 +82,7 @@
     "mocha": "^10.2.0",
     "typescript": "^5.1.3",
     "open": "^8.4.0",
-    "@vscode/test-electron": "^2.3.2"
+    "@vscode/test-electron": "^2.3.2",
+    "@stoplight/spectral-cli": "^5.0.0"
   }
 }
