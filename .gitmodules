@@ -1,6 +1,0 @@
-[submodule "owasp-ide-vulscanner"]
-	path = owasp-ide-vulscanner
-	url = https://github.com/OWASP/www-project-ide-vulscanner.git
-[submodule "owasp-spectral-linter"]
-	path = owasp-spectral-linter
-	url = https://github.com/OWASP/owasp-spectral-linter.git
