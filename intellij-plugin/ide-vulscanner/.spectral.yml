@@ -1,0 +1,14 @@
+extends: "spectral:oas"  # Use built-in OpenAPI (OAS) rules
+rules:
+  info-description:
+    description: "The info.description field must be present and non-empty"
+    severity: "warn"
+    given: "$.info.description"
+    then:
+      function: truthy
+  paths:
+    description: "Paths should be valid"
+    severity: "error"
+    given: "$.paths[*]"
+    then:
+      function: truthy
