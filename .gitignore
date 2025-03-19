@@ -1,4 +1,24 @@
-/Gemfile
-/Gemfile.lock
-/favicon.ico
+# Ignore .idea folder (IntelliJ)
+.idea/
+
+# Ignore node_modules folder (dependencies)
+node_modules/
+
+# Ignore any log files
+*.log
+
+# Ignore Gemfile and Gemfile.lock (Ruby projects)
+Gemfile
+Gemfile.lock
+
+# Ignore favicon
+favicon.ico
+
+# Ignore Jekyll _site folder (generated static site content)
 _site/
+
+# Ignore Gradle project-specific cache directory
+.gradle
+
+# Ignore Gradle build output directory
+build/
