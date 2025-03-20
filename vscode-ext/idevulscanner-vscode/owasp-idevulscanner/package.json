@@ -2,7 +2,7 @@
   "name": "owasp-idevulscanner",
   "displayName": "OWASP IDEVulScanner",
   "description": "OWASP IDE-VulScanner is an open source IDE plugin tool to analyze an application’s components. It is built on top of OWASP Dependency Check, which scans your application’s component vulnerabilities during implementation phase.",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "author":  "DestinJiDee LTD",
   "publisher": "destinjidee",
   "preview": true,
@@ -49,8 +49,6 @@
           "light": "images/pluginIcon.svg",
           "dark": "images/pluginIcon.svg"
         }
-       
-        
       }
     ],
     "menus": {
