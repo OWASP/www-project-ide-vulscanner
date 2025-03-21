@@ -1,0 +1,31 @@
+rules:
+  sql-injection:
+    description: "Detect potential SQL Injection vulnerabilities."
+    message: "Potential SQL Injection vulnerability detected. Review input validation."
+    severity: error
+    given: "$.parameters"
+    then:
+      function: pattern
+      functionOptions:
+        match: ".*(SELECT|INSERT|UPDATE|DELETE|DROP).*"
+
+  xss:
+    description: "Detect potential XSS vulnerabilities."
+    message: "Potential XSS vulnerability detected. Review data sanitization."
+    severity: error
+    given: "$.parameters"
+    then:
+      function: pattern
+      functionOptions:
+        match: ".*<script>.*</script>.*"
+
+  insecure-api:
+    description: "Detect insecure API endpoints (e.g., no authentication)."
+    message: "Insecure API endpoint detected. Consider adding authentication or authorization."
+    severity: error
+    given: "$.paths[*]"
+    then:
+      function: truthy
+      functionOptions:
+        match: "authentication"
+        invert: true
