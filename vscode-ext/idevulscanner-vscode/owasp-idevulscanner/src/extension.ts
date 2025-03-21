@@ -97,7 +97,17 @@ export function activate(context: vscode.ExtensionContext) {
         });
     });
 
-    context.subscriptions.push(disposable);
+    // Register a command for Spectral linting to allow manual linting
+    let spectralLintDisposable = vscode.commands.registerCommand('owasp-idevulscanner.spectralLint', async () => {
+        const editor = vscode.window.activeTextEditor;
+        if (!editor) {
+            vscode.window.showErrorMessage('No active editor found');
+            return;
+        }
+        await runSpectralLint(editor.document);
+    });
+
+    context.subscriptions.push(disposable, spectralLintDisposable);
 }
 
 // Function to select terminal
@@ -105,4 +115,12 @@ function selectTerminal(): Thenable<vscode.Terminal | undefined> {
     interface TerminalQuickPickItem extends vscode.QuickPickItem {
         terminal: vscode.Terminal;
     }
-    const terminals = <vscode.Terminal[]>(<
+    const terminals = vscode.window.terminals;
+    const quickPickItems: TerminalQuickPickItem[] = terminals.map((terminal) => ({
+        label: terminal.name,
+        terminal
+    }));
+    return vscode.window.showQuickPick(quickPickItems, {
+        placeHolder: 'Select terminal to run command'
+    }).then((item) => item?.terminal);
+}
