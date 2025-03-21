@@ -1,0 +1,27 @@
+extends: ['spectral:oas']
+
+rules:
+  security:
+    description: "Security rules for API"
+    type: "style"
+    given: "$.paths[*]"
+    then:
+      field: "security"
+      function: truthy
+      message: "API must have security defined (e.g., OAuth, API Key)"
+  authentication:
+    description: "Check if authentication is used"
+    type: "style"
+    given: "$.paths[*]"
+    then:
+      field: "security"
+      function: truthy
+      message: "Ensure authentication is defined for all API endpoints"
+  rate-limiting:
+    description: "Check for rate-limiting headers"
+    type: "style"
+    given: "$.paths[*]"
+    then:
+      field: "x-rate-limit"
+      function: truthy
+      message: "API must implement rate-limiting headers"
