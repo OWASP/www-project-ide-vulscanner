@@ -1,31 +1,41 @@
+extends: ["spectral:oas", "spectral:asyncapi"]
+
 rules:
-  sql-injection:
-    description: "Detect potential SQL Injection vulnerabilities."
-    message: "Potential SQL Injection vulnerability detected. Review input validation."
-    severity: error
-    given: "$.parameters"
+  avoid-inline-scripts:
+    description: "Avoid inline scripts to prevent XSS attacks."
+    given: "$..script"
+    severity: "error"
     then:
       function: pattern
       functionOptions:
-        match: ".*(SELECT|INSERT|UPDATE|DELETE|DROP).*"
+        notMatch: ".*"
 
-  xss:
-    description: "Detect potential XSS vulnerabilities."
-    message: "Potential XSS vulnerability detected. Review data sanitization."
-    severity: error
-    given: "$.parameters"
-    then:
-      function: pattern
-      functionOptions:
-        match: ".*<script>.*</script>.*"
-
-  insecure-api:
-    description: "Detect insecure API endpoints (e.g., no authentication)."
-    message: "Insecure API endpoint detected. Consider adding authentication or authorization."
-    severity: error
-    given: "$.paths[*]"
+  avoid-eval:
+    description: "Use of 'eval()' can lead to code injection vulnerabilities."
+    given: "$..['x-eval', 'eval']"
+    severity: "error"
     then:
       function: truthy
+
+  no-hardcoded-secrets:
+    description: "Avoid hardcoded secrets in API specifications."
+    given: "$..securityDefinitions..['apiKey', 'clientSecret', 'password']"
+    severity: "error"
+    then:
+      function: undefined
+
+  enforce-https:
+    description: "APIs should enforce HTTPS to ensure secure communication."
+    given: "$.servers[*].url"
+    severity: "error"
+    then:
+      function: pattern
       functionOptions:
-        match: "authentication"
-        invert: true
+        match: "^https://"
+
+  no-open-endpoints:
+    description: "Public APIs should require authentication."
+    given: "$.paths[*][get,post,put,delete].security"
+    severity: "warning"
+    then:
+      function: defined
