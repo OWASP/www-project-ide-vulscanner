@@ -37,7 +37,10 @@
   "engines": {
     "vscode": "^1.80.0"
   },
-  "activationEvents": [],
+  "activationEvents": [
+    "onDidOpenTextDocument",
+    "onDidSaveTextDocument"
+  ],
   "icon": "icon.PNG",
   "main": "./out/extension.js",
   "contributes": {
@@ -49,8 +52,14 @@
           "light": "images/pluginIcon.svg",
           "dark": "images/pluginIcon.svg"
         }
-       
-        
+      },
+      {
+        "command": "owasp-idevulscanner.runSpectralLinting",
+        "title": "Run Spectral Linting",
+        "icon": {
+          "light": "images/pluginIcon.svg",
+          "dark": "images/pluginIcon.svg"
+        }
       }
     ],
     "menus": {
@@ -70,6 +79,10 @@
     "pretest": "npm run compile && npm run lint",
     "lint": "eslint src --ext ts",
     "test": "node ./out/test/runTest.js"
+  },
+  "dependencies": {
+    "@stoplight/spectral-core": "^6.0.0",  // Add Spectral core as a dependency
+    "@stoplight/spectral-runtime": "^6.0.0"  // Add Spectral runtime as a dependency
   },
   "devDependencies": {
     "@types/vscode": "^1.80.0",
