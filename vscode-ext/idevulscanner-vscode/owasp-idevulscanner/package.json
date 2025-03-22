@@ -1,109 +1,59 @@
 {
-  "name": "owasp-idevulscanner",
-  "displayName": "OWASP IDEVulScanner",
-  "description": "OWASP IDE-VulScanner is an open source IDE plugin tool to analyze an application’s components. It is built on top of OWASP Dependency Check, which scans your application’s component vulnerabilities during the implementation phase. This version integrates Spectral linting and AI-powered remediation.",
-  "version": "0.0.8",  // Updated version
-  "author": "DestinJiDee LTD",
-  "publisher": "destinjidee",
-  "preview": true,
-  "contributors": [
-    {
-      "name": "Jitu Ranjan",
-      "email": "jitu.ranjan007@gmail.com"
-    },
-    {
-      "name": "Naman Kumar",  // Your name added as contributor
-      "email": "naman8kumar@gmail.com"
-    }
-  ],
-  "license": "Apache-2.0",
-  "bugs": {
-    "url": "https://github.com/OWASP/www-project-ide-vulscanner/issues",
-    "email": "jitu.ranjan@owasp.org"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/OWASP/www-project-ide-vulscanner"
-  },
-  "homepage": "https://owasp.org/www-project-ide-vulscanner/",
-  "categories": [
-    "Other"
-  ],
-  "keywords": [
-    "security",
-    "vulnerability",
-    "dependency scan",
-    "node",
-    "java",
-    "multi-root ready",
-    "CVE",
-    "spectral",
-    "AI",
-    "remediation"
-  ],
+  "name": "owasp-vulscanner",
+  "displayName": "OWASP VulScanner",
+  "description": "VS Code extension for detecting vulnerabilities using Spectral.",
+  "version": "0.1.0",
+  "publisher": "your-publisher-name",
   "engines": {
-    "vscode": "^1.80.0"
+    "vscode": "^1.70.0"
   },
-  "activationEvents": [],
-  "icon": "icon.PNG",
-  "main": "./out/extension.js",
+  "categories": ["Linters", "Security"],
+  "activationEvents": [
+    "onCommand:owasp-vulscanner.runSpectralLint",
+    "workspaceContains:**/*.yaml",
+    "workspaceContains:**/*.json"
+  ],
+  "main": "./dist/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "owasp-idevulscanner.runner",
-        "title": "OWASP IDEVulScanner",
-        "icon": {
-          "light": "images/pluginIcon.svg",
-          "dark": "images/pluginIcon.svg"
-        }
-      },
-      {
-        "command": "owasp-idevulscanner.spectralLint",
+        "command": "owasp-vulscanner.runSpectralLint",
         "title": "Run Spectral Linting",
-        "icon": {
-          "light": "images/spectralIcon.svg",
-          "dark": "images/spectralIcon.svg"
-        }
+        "category": "OWASP Vulscanner"
       }
     ],
-    "menus": {
-      "editor/title": [
-        {
-          "command": "owasp-idevulscanner.runner",
-          "when": "resourceFilename == pom.xml",
-          "group": "navigation"
+    "configuration": {
+      "title": "OWASP VulScanner Configuration",
+      "properties": {
+        "owasp-vulscanner.enableSpectral": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable Spectral linting on file open and save."
         },
-        {
-          "command": "owasp-idevulscanner.spectralLint",
-          "when": "resourceFilename =~ /.*/",  // Lint on all file types
-          "group": "navigation"
+        "owasp-vulscanner.spectralRuleset": {
+          "type": "string",
+          "default": "./spectral.yaml",
+          "description": "Path to the Spectral ruleset file."
         }
-      ]
+      }
     }
   },
   "scripts": {
-    "vscode:prepublish": "npm run compile",
-    "compile": "tsc -p ./",
-    "watch": "tsc -watch -p ./",
-    "pretest": "npm run compile && npm run lint",
-    "lint": "eslint src --ext ts",
-    "test": "node ./out/test/runTest.js",
-    "spectral:lint": "spectral lint src/**/*.yaml --ruleset .spectral.yaml"  // Spectral linting command
+    "compile": "tsc -p .",
+    "watch": "tsc -w -p .",
+    "lint": "eslint . --ext .ts",
+    "build": "esbuild src/extension.ts --bundle --outfile=dist/extension.js"
   },
   "devDependencies": {
-    "@types/vscode": "^1.80.0",
-    "@types/glob": "^8.1.0",
-    "@types/mocha": "^10.0.1",
-    "@types/node": "20.2.5",
-    "@typescript-eslint/eslint-plugin": "^5.59.8",
-    "@typescript-eslint/parser": "^5.59.8",
-    "eslint": "^8.41.0",
-    "glob": "^8.1.0",
-    "mocha": "^10.2.0",
-    "typescript": "^5.1.3",
-    "open": "^8.4.0",
-    "@vscode/test-electron": "^2.3.2",
-    "spectral": "^6.3.0",  // Add Spectral dependency for linting
-    "openai": "^2.0.0"  // Add OpenAI package for AI-powered fixes
+    "@types/vscode": "^1.70.0",
+    "typescript": "^4.8.4",
+    "eslint": "^8.0.0",
+    "esbuild": "^0.14.0"
+  },
+  "dependencies": {
+    "@stoplight/spectral": "^6.0.0",
+    "@stoplight/yaml": "^2.0.0",
+    "vscode-uri": "^3.0.0",
+    "fs": "0.0.1-security"
   }
 }
