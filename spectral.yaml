@@ -1,0 +1,20 @@
+rules:
+  info-description:
+    description: "Info objects must have a description."
+    severity: warn
+    given: "$.info"
+    then:
+      field: description
+      function: truthy
+      functionOptions:
+        fix: "Add a meaningful description to the info object."
+
+  operation-description:
+    description: "Operations should have a description."
+    severity: warn
+    given: "$.paths.*.*"
+    then:
+      field: description
+      function: truthy
+      functionOptions:
+        fix: "Add a description explaining what this operation does."

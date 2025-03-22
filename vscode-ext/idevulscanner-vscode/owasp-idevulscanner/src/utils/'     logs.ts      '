@@ -1,0 +1,7 @@
+// /src/utils/logs.ts
+import * as vscode from 'vscode';
+
+export function logError(message: string, error: Error) {
+  console.error(message, error);
+  vscode.window.showErrorMessage(message);  // Show error message in VS Code
+}
