@@ -1,29 +1,24 @@
 import * as vscode from "vscode";
-import { runSpectralLint } from "./spectral-lint";
 import { SpectralFixProvider } from "./fix-provider";
+import { runSpectralLinting } from "./spectral-lint";
 
 export function activate(context: vscode.ExtensionContext) {
-  vscode.workspace.onDidOpenTextDocument(runSpectralLint);
-  vscode.workspace.onDidSaveTextDocument(runSpectralLint);
+    const spectralDiagnostics = vscode.languages.createDiagnosticCollection("spectral");
 
-  context.subscriptions.push(
-    vscode.commands.registerCommand("owasp-vulscanner.runSpectralLint", async () => {
-      const editor = vscode.window.activeTextEditor;
-      if (editor) {
-        await runSpectralLint(editor.document);
-        vscode.window.showInformationMessage("Spectral Linting Completed!");
-      }
-    })
-  );
+    vscode.workspace.onDidOpenTextDocument(async document => {
+        if (document.languageId === "yaml" || document.languageId === "json") {
+            const diagnostics = await runSpectralLinting(document.getText());
+            spectralDiagnostics.set(document.uri, diagnostics);
+        }
+    });
 
-  // Register Fix Provider
-  context.subscriptions.push(
-    vscode.languages.registerCodeActionsProvider(
-      { scheme: "file", language: "yaml" },
-      new SpectralFixProvider(),
-      { providedCodeActionKinds: [vscode.CodeActionKind.QuickFix] }
-    )
-  );
+    context.subscriptions.push(
+        vscode.languages.registerCodeActionsProvider(
+            { scheme: "file", language: "yaml" },
+            new SpectralFixProvider(),
+            { providedCodeActionKinds: [vscode.CodeActionKind.QuickFix] }
+        )
+    );
 }
 
 export function deactivate() {}
