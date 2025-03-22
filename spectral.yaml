@@ -9,6 +9,8 @@ rules:
       function: pattern
       functionOptions:
         notMatch: ".*"
+    message: "Use external JavaScript files instead of inline scripts."
+    x-fix: "Remove the <script> tag and move the script to an external file."
 
   avoid-eval:
     description: "Use of 'eval()' can lead to code injection vulnerabilities."
@@ -16,26 +18,16 @@ rules:
     severity: "error"
     then:
       function: truthy
-
-  no-hardcoded-secrets:
-    description: "Avoid hardcoded secrets in API specifications."
-    given: "$..securityDefinitions..['apiKey', 'clientSecret', 'password']"
-    severity: "error"
-    then:
-      function: undefined
+    message: "Avoid using eval(). Use safer alternatives such as JSON.parse."
+    x-fix: "Refactor code to remove eval()."
 
   enforce-https:
-    description: "APIs should enforce HTTPS to ensure secure communication."
+    description: "APIs should enforce HTTPS."
     given: "$.servers[*].url"
     severity: "error"
     then:
       function: pattern
       functionOptions:
         match: "^https://"
-
-  no-open-endpoints:
-    description: "Public APIs should require authentication."
-    given: "$.paths[*][get,post,put,delete].security"
-    severity: "warning"
-    then:
-      function: defined
+    message: "Use HTTPS instead of HTTP."
+    x-fix: "Update API URLs to start with 'https://'."

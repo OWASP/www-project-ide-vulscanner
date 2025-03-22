@@ -25,7 +25,18 @@ export async function runSpectralLint(document: vscode.TextDocument) {
         result.range.end.character
       );
 
-      return new vscode.Diagnostic(range, result.message, vscode.DiagnosticSeverity.Warning);
+      const diagnostic = new vscode.Diagnostic(
+        range,
+        result.message,
+        vscode.DiagnosticSeverity.Warning
+      );
+
+      // Attach Fix Suggestion (if available)
+      if (result.rule && result.rule["x-fix"]) {
+        (diagnostic as any).fixSuggestion = result.rule["x-fix"];
+      }
+
+      return diagnostic;
     });
 
     // Update VS Code Problems Panel

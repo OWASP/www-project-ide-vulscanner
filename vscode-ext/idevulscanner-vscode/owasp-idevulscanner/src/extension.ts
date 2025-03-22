@@ -1,5 +1,6 @@
 import * as vscode from "vscode";
 import { runSpectralLint } from "./spectral-lint";
+import { SpectralFixProvider } from "./fix-provider";
 
 export function activate(context: vscode.ExtensionContext) {
   vscode.workspace.onDidOpenTextDocument(runSpectralLint);
@@ -13,6 +14,15 @@ export function activate(context: vscode.ExtensionContext) {
         vscode.window.showInformationMessage("Spectral Linting Completed!");
       }
     })
+  );
+
+  // Register Fix Provider
+  context.subscriptions.push(
+    vscode.languages.registerCodeActionsProvider(
+      { scheme: "file", language: "yaml" },
+      new SpectralFixProvider(),
+      { providedCodeActionKinds: [vscode.CodeActionKind.QuickFix] }
+    )
   );
 }
 
