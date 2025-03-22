@@ -1,48 +1,29 @@
-import { Spectral, Document, isOpenApiv2, isOpenApiv3 } from "@stoplight/spectral";
-import { readFileSync } from "fs";
-import { URI } from "vscode-uri";
 import * as vscode from "vscode";
-import { parse } from "@stoplight/yaml";
+import { runSpectralLinting } from "./spectral-lint";
 
-export async function runSpectralLint(document: vscode.TextDocument) {
-  const spectral = new Spectral();
-  try {
-    // Load OWASP security rules from spectral.yaml
-    const spectralConfig = readFileSync(vscode.workspace.rootPath + "/spectral.yaml", "utf8");
-    spectral.setRuleset(parse(spectralConfig));
+export class SpectralFixProvider implements vscode.CodeActionProvider {
+    public provideCodeActions(document: vscode.TextDocument, range: vscode.Range): vscode.CodeAction[] | undefined {
+        return this.getFixes(document, range);
+    }
 
-    // Run linting on the document content
-    const results = await spectral.run(document.getText(), {
-      resolve: { documentUri: URI.file(document.uri.fsPath).toString() },
-    });
+    private async getFixes(document: vscode.TextDocument, range: vscode.Range): Promise<vscode.CodeAction[]> {
+        const diagnostics = vscode.languages.getDiagnostics(document.uri);
+        const relevantDiagnostics = diagnostics.filter(d => d.range.intersection(range));
 
-    // Convert Spectral results to VS Code Diagnostics
-    const diagnostics: vscode.Diagnostic[] = results.map((result) => {
-      const range = new vscode.Range(
-        result.range.start.line,
-        result.range.start.character,
-        result.range.end.line,
-        result.range.end.character
-      );
+        const fixes: vscode.CodeAction[] = [];
 
-      const diagnostic = new vscode.Diagnostic(
-        range,
-        result.message,
-        vscode.DiagnosticSeverity.Warning
-      );
+        for (const diagnostic of relevantDiagnostics) {
+            if (diagnostic.code && diagnostic.code.toString().startsWith("spectral")) {
+                const fixSuggestion = diagnostic.message.split(". Fix: ")[1];
+                if (fixSuggestion) {
+                    const fix = new vscode.CodeAction(`Fix: ${fixSuggestion}`, vscode.CodeActionKind.QuickFix);
+                    fix.edit = new vscode.WorkspaceEdit();
+                    fix.edit.replace(document.uri, range, fixSuggestion);
+                    fixes.push(fix);
+                }
+            }
+        }
 
-      // Attach Fix Suggestion (if available)
-      if (result.rule && result.rule["x-fix"]) {
-        (diagnostic as any).fixSuggestion = result.rule["x-fix"];
-      }
-
-      return diagnostic;
-    });
-
-    // Update VS Code Problems Panel
-    const diagnosticCollection = vscode.languages.createDiagnosticCollection("spectral");
-    diagnosticCollection.set(document.uri, diagnostics);
-  } catch (error) {
-    vscode.window.showErrorMessage("Spectral linting error: " + error.message);
-  }
+        return fixes;
+    }
 }

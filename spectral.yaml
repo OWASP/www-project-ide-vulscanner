@@ -1,33 +1,20 @@
-extends: ["spectral:oas", "spectral:asyncapi"]
-
 rules:
-  avoid-inline-scripts:
-    description: "Avoid inline scripts to prevent XSS attacks."
-    given: "$..script"
-    severity: "error"
+  info-description:
+    description: "Info objects must have a description."
+    severity: warn
+    given: "$.info"
     then:
-      function: pattern
-      functionOptions:
-        notMatch: ".*"
-    message: "Use external JavaScript files instead of inline scripts."
-    x-fix: "Remove the <script> tag and move the script to an external file."
-
-  avoid-eval:
-    description: "Use of 'eval()' can lead to code injection vulnerabilities."
-    given: "$..['x-eval', 'eval']"
-    severity: "error"
-    then:
+      field: description
       function: truthy
-    message: "Avoid using eval(). Use safer alternatives such as JSON.parse."
-    x-fix: "Refactor code to remove eval()."
-
-  enforce-https:
-    description: "APIs should enforce HTTPS."
-    given: "$.servers[*].url"
-    severity: "error"
-    then:
-      function: pattern
       functionOptions:
-        match: "^https://"
-    message: "Use HTTPS instead of HTTP."
-    x-fix: "Update API URLs to start with 'https://'."
+        fix: "Add a meaningful description to the info object."
+
+  operation-description:
+    description: "Operations should have a description."
+    severity: warn
+    given: "$.paths.*.*"
+    then:
+      field: description
+      function: truthy
+      functionOptions:
+        fix: "Add a description explaining what this operation does."
