@@ -1,7 +1,27 @@
 rules:
-  custom-header-security:
-    description: "Ensure custom security headers are present"
-    severity: "error"  # ✅ Valid severity
-    given: "$.responses..headers"
+  api-key-leak:
+    description: "Ensure API keys are not exposed in query parameters."
+    given: "$..parameters[?(@.name =~ /.*(apiKey|token).*/i)]"
+    severity: error
     then:
-      function: truthy
+      function: pattern
+      functionOptions:
+        notMatch: ".*(apiKey|token)=.*"
+
+  insecure-api:
+    description: "Detect insecure API endpoints that allow HTTP instead of HTTPS."
+    given: "$..servers[*].url"
+    severity: error
+    then:
+      function: pattern
+      functionOptions:
+        match: "^https://"
+
+  deprecated-headers:
+    description: "Ensure APIs do not use deprecated security headers."
+    given: "$..headers"
+    severity: warn
+    then:
+      function: pattern
+      functionOptions:
+        notMatch: ".*(X-Powered-By|Server).*"

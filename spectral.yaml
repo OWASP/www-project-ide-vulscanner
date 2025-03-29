@@ -1,27 +1,42 @@
+extends: [[spectral:oas, off]]  # Disables default rules to avoid conflicts
+
 rules:
-  api-key-leak:
-    description: "Detects hardcoded API keys"
-    severity: "error"  # ✅ Valid severity
-    given: "$.components.securitySchemes.*"
+  info-description:
+    description: "Every API should have an info description."
+    given: "$.info"
+    severity: error
     then:
-      function: pattern
-      functionOptions:
-        match: "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{16,}$"
+      field: description
+      function: truthy
 
-  xss-detection:
-    description: "Detects potential XSS vulnerabilities"
-    severity: "warn"  # ✅ Valid severity
-    given: "$.paths..parameters[?(@.in == 'query' || @.in == 'body')]"
+  security-schemes:
+    description: "Security schemes must be defined properly."
+    given: "$.components.securitySchemes"
+    severity: error
     then:
-      function: pattern
+      function: schema
       functionOptions:
-        notMatch: "<script>.*</script>"
+        schema:
+          type: object
+          properties:
+            type:
+              type: string
+              enum: [apiKey, http, oauth2, openIdConnect]
 
-  sql-injection:
-    description: "Detects possible SQL injection patterns"
-    severity: "error"  # ✅ Valid severity
-    given: "$.paths..parameters[?(@.in == 'query')]"
+  xss-prevention:
+    description: "Ensure API responses are sanitized to prevent XSS attacks."
+    given: "$..responses..content..schema.properties.*"
+    severity: error
     then:
       function: pattern
       functionOptions:
-        notMatch: "(?i)union select|drop table|insert into|--"
+        notMatch: "(?i).*<script>.*"
+
+  sql-injection-check:
+    description: "Detect potential SQL injection risks in API requests."
+    given: "$..parameters[?(@.in=='query' || @.in=='body')].name"
+    severity: error
+    then:
+      function: pattern
+      functionOptions:
+        notMatch: ".*([Ss][Ee][Ll][Ee][Cc][Tt]|[Ii][Nn][Ss][Ee][Rr][Tt]|[Uu][Pp][Dd][Aa][Tt][Ee]|[Dd][Ee][Ll][Ee][Tt][Ee]|[Dd][Rr][Oo][Pp]|[Uu][Nn][Ii][Oo][Nn]).*"
