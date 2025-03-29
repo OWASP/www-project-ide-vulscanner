@@ -1,0 +1,30 @@
+openapi: 3.0.0
+info:
+  title: Test API
+  version: 1.0.0
+
+servers:
+  - url: "https://insecure.com"  # Should trigger HTTPS rule
+
+
+paths:
+  /users:
+    get:
+      parameters:
+        - name: "api_key"  # Should trigger "api-key-exposure" rule
+          in: query
+          required: true
+        - name: "user_input"  # Should trigger "prevent-sql-injection" rule
+          in: query
+          required: false
+      responses:
+        "200":
+          description: "OK"
+          # Should trigger "missing-security-headers" rule
+
+  /admin:
+    get:
+      responses:
+        "200":
+          description: "Admin Data"
+      # Should trigger "missing-auth" rule

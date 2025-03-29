@@ -1,0 +1,7 @@
+rules:
+  custom-header-security:
+    description: "Ensure custom security headers are present"
+    severity: "error"  # ✅ Valid severity
+    given: "$.responses..headers"
+    then:
+      function: truthy

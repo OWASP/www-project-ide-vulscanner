@@ -1,10 +1,27 @@
 rules:
-  owasp-best-practices:
-    description: "OWASP security best practices check"
-    given: "$.components..securitySchemes[*]"
-    severity: "warn"
+  api-key-leak:
+    description: "Detects hardcoded API keys"
+    severity: "error"  # ✅ Valid severity
+    given: "$.components.securitySchemes.*"
     then:
-      - field: "type"
-        function: "truthy"
-        functionOptions:
-          truthy: ["apiKey", "http", "oauth2", "openIdConnect"]
+      function: pattern
+      functionOptions:
+        match: "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{16,}$"
+
+  xss-detection:
+    description: "Detects potential XSS vulnerabilities"
+    severity: "warn"  # ✅ Valid severity
+    given: "$.paths..parameters[?(@.in == 'query' || @.in == 'body')]"
+    then:
+      function: pattern
+      functionOptions:
+        notMatch: "<script>.*</script>"
+
+  sql-injection:
+    description: "Detects possible SQL injection patterns"
+    severity: "error"  # ✅ Valid severity
+    given: "$.paths..parameters[?(@.in == 'query')]"
+    then:
+      function: pattern
+      functionOptions:
+        notMatch: "(?i)union select|drop table|insert into|--"
