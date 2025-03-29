@@ -40,3 +40,12 @@ rules:
       function: pattern
       functionOptions:
         notMatch: ".*([Ss][Ee][Ll][Ee][Cc][Tt]|[Ii][Nn][Ss][Ee][Rr][Tt]|[Uu][Pp][Dd][Aa][Tt][Ee]|[Dd][Ee][Ll][Ee][Tt][Ee]|[Dd][Rr][Oo][Pp]|[Uu][Nn][Ii][Oo][Nn]).*"
+
+  api-key-detection:
+    description: "Detect and mask hardcoded API keys."
+    given: "$..api_key"
+    severity: error
+    then:
+      function: pattern
+      functionOptions:
+        notMatch: "^[a-zA-Z0-9]{10,}$"  # Adjust regex based on expected API key format

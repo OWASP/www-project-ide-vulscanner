@@ -1,0 +1,66 @@
+openapi: 3.0.3
+info:
+  title: Minimal API Test
+  description: A sample API specification for Spectral linting.
+  version: 1.0.0
+  contact:
+    name: API Support
+    email: support@example.com
+    url: https://example.com/support
+
+servers:
+  - url: https://api.example.com/v1
+    description: Production Server
+
+paths:
+  /test:
+    get:
+      summary: Fetch test data
+      description: Retrieves test data from the server.
+      operationId: getTestData
+      tags:
+        - Test
+      security:
+        - apiKeyAuth: []  # ✅ Correctly linking to securitySchemes
+      parameters:
+        - name: queryParam
+          in: query
+          required: false
+          schema:
+            type: string
+            pattern: "^[a-zA-Z0-9]+$"
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Success"
+        "400":
+          description: Bad Request
+        "401":
+          description: Unauthorized
+        "500":
+          description: Internal Server Error
+
+components:
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key  # ✅ Correctly defined API key security scheme
+
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+          example: "An error occurred"
+
+security:
+  - apiKeyAuth: []  # ✅ Applying API key authentication globally
