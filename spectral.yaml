@@ -1,20 +1,10 @@
 rules:
-  info-description:
-    description: "Info objects must have a description."
-    severity: warn
-    given: "$.info"
+  owasp-best-practices:
+    description: "OWASP security best practices check"
+    given: "$.components..securitySchemes[*]"
+    severity: "warn"
     then:
-      field: description
-      function: truthy
-      functionOptions:
-        fix: "Add a meaningful description to the info object."
-
-  operation-description:
-    description: "Operations should have a description."
-    severity: warn
-    given: "$.paths.*.*"
-    then:
-      field: description
-      function: truthy
-      functionOptions:
-        fix: "Add a description explaining what this operation does."
+      - field: "type"
+        function: "truthy"
+        functionOptions:
+          truthy: ["apiKey", "http", "oauth2", "openIdConnect"]
