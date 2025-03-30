@@ -1,15 +1,11 @@
-import * as assert from 'assert';
+import * as assert from "assert";
+import * as vscode from "vscode";
+import { provideAiFixes } from "../../aiFixProvider";
 
-// You can import and use all API from the 'vscode' module
-// as well as import your extension to test it
-import * as vscode from 'vscode';
-// import * as myExtension from '../../extension';
-
-suite('Extension Test Suite', () => {
-	vscode.window.showInformationMessage('Start all tests.');
-
-	test('Sample test', () => {
-		assert.strictEqual(-1, [1, 2, 3].indexOf(5));
-		assert.strictEqual(-1, [1, 2, 3].indexOf(0));
-	});
+suite("AI Fix Provider Tests", () => {
+    test("Should apply AI fixes correctly", async () => {
+        const editor = await vscode.workspace.openTextDocument({ content: "const apiKey = '123456';" });
+        await provideAiFixes();
+        assert.strictEqual(editor.getText().includes("apiKey"), false);
+    });
 });
