@@ -1,56 +1,29 @@
-import * as vscode from "vscode";
-<<<<<<< HEAD
-import { runSpectralLint } from "./spectral-lint";
-import { SpectralFixProvider } from "./fix-provider";
+import * as vscode from 'vscode';
+import { runSpectralLinting } from './linter';
+import { Logger } from './utils/logger';
 
 export function activate(context: vscode.ExtensionContext) {
-  // Run Spectral Linting on file open/save
-  vscode.workspace.onDidOpenTextDocument(runSpectralLint);
-  vscode.workspace.onDidSaveTextDocument(runSpectralLint);
+  let disposable = vscode.commands.registerCommand('ide-vulscanner.runSecurityScan', async () => {
+    try {
+      const editor = vscode.window.activeTextEditor;
+      if (!editor) {
+        Logger.warn('No active editor found.');
+        vscode.window.showWarningMessage('No file open to scan.');
+        return;
+      }
 
-  // Command Palette: Run Spectral Linting Manually
-  const spectralLintCommand = vscode.commands.registerCommand("owasp-vulscanner.runSpectralLint", async () => {
-    const editor = vscode.window.activeTextEditor;
-    if (!editor) {
-      vscode.window.showWarningMessage("Open a file to run Spectral Linting.");
-      return;
+      Logger.info('Starting security scan...');
+      await runSpectralLinting(editor.document);
+      Logger.info('Security scan completed.');
+
+    } catch (error) {
+      Logger.error('An unexpected error occurred while running the scan.', error);
     }
-
-    await runSpectralLint(editor.document);
-    vscode.window.showInformationMessage("Spectral Linting Completed!");
   });
 
-  context.subscriptions.push(spectralLintCommand);
-
-  // Register Fix Provider for Quick Fixes
-  context.subscriptions.push(
-    vscode.languages.registerCodeActionsProvider(
-      { scheme: "file", language: "yaml" },
-      new SpectralFixProvider(),
-      { providedCodeActionKinds: [vscode.CodeActionKind.QuickFix] }
-    )
-  );
-=======
-import { registerSpectralLinting } from "./spectralScan";
-import { provideAiFixes } from "./aiFixProvider";
-
-export function activate(context: vscode.ExtensionContext) {
-    console.log("OWASP IDE-Vulscanner activated!");
-
-    // Register Spectral linting
-    registerSpectralLinting(context);
-
-    // Register AI-Powered Fix Suggestions
-    let aiFixCommand = vscode.commands.registerCommand("vulscanner.aiFix", async () => {
-        await provideAiFixes();
-    });
-
-    context.subscriptions.push(aiFixCommand);
+  context.subscriptions.push(disposable);
 }
 
 export function deactivate() {
-    console.log("OWASP IDE-Vulscanner deactivated!");
->>>>>>> spectral-linting-integration
+  Logger.info('IDE-Vulscanner extension deactivated.');
 }
-
-export function deactivate() {}
