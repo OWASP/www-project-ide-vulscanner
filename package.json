@@ -46,10 +46,17 @@
       {
         "command": "extension.applyFix",
         "title": "Apply Security Fix"
+      },
+      {
+        "command": "vulscanner.runSecurityScan",
+        "title": "Run Security Scan"
       }
     ]
   },
-  "activationEvents": ["onLanguage:yaml"],
+  "activationEvents": [
+    "onLanguage:yaml",
+    "onCommand:vulscanner.runSecurityScan"
+  ],
   "author": "Naman Kumar",
   "license": "MIT"
 }
