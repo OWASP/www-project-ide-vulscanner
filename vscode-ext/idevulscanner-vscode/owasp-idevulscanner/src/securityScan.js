@@ -1,11 +1,4 @@
 "use strict";
-<<<<<<< HEAD
-Object.defineProperty(exports, "__esModule", { value: true });
-const assert = require("assert");
-// You can import and use all API from the 'vscode' module
-// as well as import your extension to test it
-const vscode = require("vscode");
-=======
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     var desc = Object.getOwnPropertyDescriptor(m, k);
@@ -40,16 +33,28 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-const assert = __importStar(require("assert"));
-// You can import and use all API from the 'vscode' module
-// as well as import your extension to test it
+exports.runSecurityScan = runSecurityScan;
 const vscode = __importStar(require("vscode"));
->>>>>>> spectral-linting-integration
-// import * as myExtension from '../../extension';
-suite('Extension Test Suite', () => {
-    vscode.window.showInformationMessage('Start all tests.');
-    test('Sample test', () => {
-        assert.strictEqual(-1, [1, 2, 3].indexOf(5));
-        assert.strictEqual(-1, [1, 2, 3].indexOf(0));
+const outputChannel_1 = require("./outputChannel");
+const problemMatcher_1 = require("./problemMatcher");
+const child_process_1 = require("child_process");
+function runSecurityScan() {
+    const outputChannel = (0, outputChannel_1.getOutputChannel)();
+    outputChannel.appendLine("Starting security scan...");
+    const editor = vscode.window.activeTextEditor;
+    if (!editor) {
+        vscode.window.showWarningMessage("No active file open. Please open a file to scan.");
+        return;
+    }
+    const filePath = editor.document.fileName;
+    (0, child_process_1.exec)(`spectral lint ${filePath}`, (error, stdout, stderr) => {
+        if (error) {
+            outputChannel.appendLine(`Error: ${stderr}`);
+            vscode.window.showErrorMessage("Security scan failed. Check output for details.");
+            return;
+        }
+        outputChannel.appendLine(stdout);
+        (0, problemMatcher_1.processLintResults)(stdout);
+        vscode.window.showInformationMessage("Security scan completed.");
     });
-});
+}

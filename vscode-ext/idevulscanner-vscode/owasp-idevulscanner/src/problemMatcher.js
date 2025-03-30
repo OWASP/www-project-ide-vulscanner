@@ -1,11 +1,4 @@
 "use strict";
-<<<<<<< HEAD
-Object.defineProperty(exports, "__esModule", { value: true });
-const assert = require("assert");
-// You can import and use all API from the 'vscode' module
-// as well as import your extension to test it
-const vscode = require("vscode");
-=======
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     var desc = Object.getOwnPropertyDescriptor(m, k);
@@ -40,16 +33,26 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-const assert = __importStar(require("assert"));
-// You can import and use all API from the 'vscode' module
-// as well as import your extension to test it
+exports.processLintResults = processLintResults;
 const vscode = __importStar(require("vscode"));
->>>>>>> spectral-linting-integration
-// import * as myExtension from '../../extension';
-suite('Extension Test Suite', () => {
-    vscode.window.showInformationMessage('Start all tests.');
-    test('Sample test', () => {
-        assert.strictEqual(-1, [1, 2, 3].indexOf(5));
-        assert.strictEqual(-1, [1, 2, 3].indexOf(0));
+function processLintResults(stdout) {
+    const diagnostics = [];
+    const diagnosticCollection = vscode.languages.createDiagnosticCollection("owasp-vulscanner");
+    const editor = vscode.window.activeTextEditor;
+    if (!editor) {
+        return;
+    }
+    const lines = stdout.split("\n");
+    lines.forEach((line) => {
+        const match = line.match(/(.+):(\d+):(\d+) - (.+)/);
+        if (match) {
+            const [, file, lineStr, colStr, message] = match;
+            const lineNum = parseInt(lineStr, 10) - 1;
+            const colNum = parseInt(colStr, 10) - 1;
+            const range = new vscode.Range(lineNum, colNum, lineNum, colNum + 1);
+            const diagnostic = new vscode.Diagnostic(range, message, vscode.DiagnosticSeverity.Warning);
+            diagnostics.push(diagnostic);
+        }
     });
-});
+    diagnosticCollection.set(editor.document.uri, diagnostics);
+}
