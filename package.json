@@ -1,0 +1,46 @@
+{
+    "name": "owasp-ide-vulscanner",
+    "version": "1.0.0",
+    "description": "A VS Code extension for detecting and fixing security vulnerabilities using Spectral Linting and AI-powered remediation.",
+    "publisher": "your-publisher-name",
+    "engines": {
+      "vscode": "^1.75.0"
+    },
+    "categories": ["Linters", "Security"],
+    "activationEvents": ["onStartupFinished"],
+    "main": "./out/extension.js",
+    "contributes": {
+      "commands": [
+        {
+          "command": "owasp.scan",
+          "title": "Run Security Scan"
+        },
+        {
+          "command": "owasp.fixAI",
+          "title": "AI Fix Suggestions"
+        }
+      ]
+    },
+    "scripts": {
+      "lint": "eslint src --ext .ts",
+      "build": "tsc",
+      "watch": "tsc -w",
+      "test": "npx spectral lint test.yml",
+      "package": "vsce package"
+    },
+    "devDependencies": {
+      "@types/node": "^20.0.0",
+      "@typescript-eslint/eslint-plugin": "^6.0.0",
+      "@typescript-eslint/parser": "^6.0.0",
+      "eslint": "^8.45.0",
+      "prettier": "^3.0.0",
+      "typescript": "^5.0.0",
+      "vsce": "^2.14.0"
+    },
+    "dependencies": {
+      "axios": "^1.6.0",
+      "openai": "^4.0.0",
+      "@stoplight/spectral": "^6.1.0"
+    }
+  }
+  

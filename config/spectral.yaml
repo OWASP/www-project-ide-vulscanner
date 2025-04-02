@@ -1,0 +1,9 @@
+extends: spectral:oas
+rules:
+  owasp-best-practices:
+    description: "Security best practices based on OWASP recommendations"
+    severity: error
+    given: "$"
+    then:
+      field: "securityDefinitions"
+      function: truthy

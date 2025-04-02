@@ -1,0 +1,10 @@
+responses:
+  "200":
+    description: "Successful response"
+    headers:
+      X-Content-Type-Options: "nosniff"  # This should pass the security-headers rule
+
+queries:
+  userQuery: "SELECT * FROM users WHERE id=1"  # This is safe and won't trigger the SQL injection rule
+  maliciousQuery: "SELECT password FROM users WHERE id=1"  # Safe query
+
