@@ -1,0 +1,22 @@
+audience:
+  - builder
+  - defender
+leaders:
+  - name: Jitu Ranjan
+    email: jitu.ranjan@owasp.org
+    github: Jitu-Ranjan
+level: 2
+license:
+  - Apache-2.0
+name: OWASP IDE-VulScanner
+pitch: Checks code vulnerability during implementation phase
+repositories:
+  - name: www-project-ide-vulscanner
+    url: https://github.com/OWASP/www-project-ide-vulscanner
+    description: OWASP Foundation Web Repository
+tags:
+  - custom-tag-1
+  - custom-tag-2
+  - custom-tag-3
+type: documentation
+website: https://owasp.org/www-project-ide-vulscanner
