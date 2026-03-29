@@ -1,4 +1,6 @@
-/Gemfile
-/Gemfile.lock
-/favicon.ico
-_site/
+.idea/
+node_modules/
+package-lock.json
+.vscode/
+dist/
+out/

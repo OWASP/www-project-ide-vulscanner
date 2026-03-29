@@ -1,0 +1,18 @@
+extends: spectral:oas
+rules:
+  no-hardcoded-api-keys:
+    description: "Detects hardcoded API keys"
+    severity: error
+    given: "$.paths[*].security[*]"
+    then:
+      function: pattern
+      functionOptions:
+        match: "sk-[a-zA-Z0-9]+"  # Matches API keys
+  sql-injection-check:
+    description: "Detects possible SQL injection vulnerabilities"
+    severity: error
+    given: "$.paths[*].parameters[*].name"
+    then:
+      function: pattern
+      functionOptions:
+        match: ".*(SELECT|DROP|DELETE|INSERT).*"

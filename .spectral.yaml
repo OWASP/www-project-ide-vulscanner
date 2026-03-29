@@ -1,0 +1,7 @@
+rules:
+  xss:
+    description: Detect potential XSS vulnerabilities.
+  sqlInjection:
+    description: Detect potential SQL Injection vulnerabilities.
+  apiKeyLeak:
+    description: Detect potential API key leaks.
